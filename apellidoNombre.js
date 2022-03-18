@@ -11,7 +11,7 @@ class Usuario {
         this.mascotas = addMascotas(pMascotas);
         this.nombreCompleto = getFullName(pNombre, pApellido);
         this.cantidadMascotas = countMascotas(pMascotas);
-        
+
     }
     getFullName(nombre, apellido) {
         let nombreCompleto = `${nombre} ${apellido}`;
@@ -29,13 +29,8 @@ class Usuario {
 
     }
     countMascotas(mascotas) {
-        let contadorMascotas = 0;
-        for (let i = 0; i < mascotas.length; i++) {
-            let mascotaActual = mascotas[i];
-            contadorMascotas++;
 
-        }
-        return contadorMascotas
+        return mascotas.length
     }
 
 
@@ -43,13 +38,13 @@ class Usuario {
         nuevoLibro = `titulo: ${libro} autor: ${autor}`
         libros.push(nuevoLibro);
     }
-    getBookNames(libros){
+    getBookNames(libros) {
         let titulosUsuario = [];
         for (let i = 0; i < libros.length; i++) {
             let libroActual = libros[i];
             let tituloLibro = libroActual.nombreLibro;
             titulosUsuario.push(tituloLibro);
-            
+
         }
         return titulosUsuario
 
@@ -62,6 +57,6 @@ function subirUsuario(nombre, apellido, libros, mascotas) {
 
 
 }
-librosGonzalo = ['2 vueltas en 4','aventuras en el regency']
-mascotasGonzalo = ['gallina','dawson']
+librosGonzalo = ['2 vueltas en 4', 'aventuras en el regency']
+mascotasGonzalo = ['gallina', 'dawson']
 subirUsuario(Gonzalo, Bergessio, librosGonzalo, mascotasGonzalo)
