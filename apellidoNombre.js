@@ -8,23 +8,17 @@ class Usuario {
         this.nombre = pNombre;
         this.apellido = pApellido;
         this.libros = pLibros;
-        this.mascotas = addMascotas(pMascotas);
-        this.nombreCompleto = getFullName(pNombre, pApellido);
-        this.cantidadMascotas = countMascotas(pMascotas);
+        this.mascotas = pMascotas;
+        
+        
 
     }
-    getFullName(nombre, apellido) {
-        let nombreCompleto = `${nombre} ${apellido}`;
+    getFullName() {
+        let nombreCompleto = `${this.nombre} ${this.apellido}`;
         return nombreCompleto
     }
-    addMascotas(mascota) {
-        let mascotasUsuario = [];
-        for (let i = 0; i < mascota.length; i++) {
-            let mascotaActual = mascota[i];
-            mascotasUsuario.push(mascotaActual);
-
-        }
-        return mascotasUsuario
+    addMascotas(nombreMascota) {
+        mascotas.push(nombreMascota)
 
 
     }
@@ -35,10 +29,10 @@ class Usuario {
 
 
     addBooks(libro, autor) {
-        nuevoLibro = `titulo: ${libro} autor: ${autor}`
+        nuevoLibro = `titulo: ${libro}, autor: ${autor}`
         libros.push(nuevoLibro);
     }
-    getBookNames(libros) {
+    getBookNames() {
         let titulosUsuario = [];
         for (let i = 0; i < libros.length; i++) {
             let libroActual = libros[i];
