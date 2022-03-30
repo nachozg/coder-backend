@@ -1,0 +1,5 @@
+[   
+    {"title":"lechuga","price":550,"thumbnail":"https://www.shutterstock.com/es/image-photo/fresh-lettuce-on-white-background-1787554472","id":1},
+    {"title":"papas","price":453,"thumbnail":"https://us.123rf.com/450wm/elenamasiutkina/elenamasiutkina1909/elenamasiutkina190900116/131731827-patatas-org%C3%A1nicas-frescas-patatas-amarillas-j%C3%B3venes-de-cilicio-con-textura-de-cerca-.jpg?ver=6","id":2},
+    {"title":"zanahoria","price":530,"thumbnail":"https://www.comenaranjas.com/images/stories/virtuemart/product/zanahorias-manojo-tierno.jpg","id":3}
+]
