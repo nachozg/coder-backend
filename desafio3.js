@@ -3,7 +3,7 @@ const moment = require('moment');
 const app = express();
 const Contenedor = require('./desafio3')
 
-const nuevoProducto = new Contenedor("./products.txt")
+const nuevoProducto = new Contenedor("./productos.txt")
 const PORT = process.env.PORT || 8080
 
 const server = app.listen(PORT,()=>{
