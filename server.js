@@ -18,7 +18,7 @@ server.on("error",(err)=>{
 // R U T A S
 
 
-app.get('/productos',(req,res)=>{
+app.get('/products',(req,res)=>{
     nuevoProducto.getAll()
     .then(data =>{
         res.json(data);
