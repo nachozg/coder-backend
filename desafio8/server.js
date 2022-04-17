@@ -1,6 +1,6 @@
 const express = require('express');
 const productos = require('./api/productos');
-
+const router = express.Router();
 
 
 // creo una app de tipo express
