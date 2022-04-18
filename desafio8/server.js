@@ -1,43 +1,51 @@
-const express = require('express');
-const productos = require('./api/productos');
-const router = express.Router();
+import express from 'express';
+import Productos from '../api/Productos.js';
 
+export const router = express.Router();
+export const viewRouter = express.Router();
 
-// creo una app de tipo express
-const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+const productos = new Productos();
 
-app.post('/api/productos/guardar', (req, res) => {
-    productos.guardar(req.body.title, req.body.price, req.body.thumbnail);
-    return res.json({ estado: 'GUARDADO' });
-})
-
-app.get('/api/productos/listar/:id', (req, res) => {
-    let id = req.params.id;
-    let producto = productos.listar(id);
-    if (producto == null) {
-        res.send({ error: "Producto no encontrado" })
-    } else {
-        res.json(producto)
-    }
-
-})
-
-app.get('/api/productos/listar', (req, res) => {
-        let listado = productos.getProductos();
-        if (listado.length === 0) {
-            res.send({ error: "No hay productos cargados" })
-        } else {
-            return res.json(listado);
-        }
-
-
+viewRouter.get('/productos/vista', (req, res) => {
+    const listOfProducts = productos.getProducts();
+    console.log(listOfProducts);
+    res.render("vista", {
+        hayProductos: Array.isArray(listOfProducts),
+        productos: listOfProducts
     })
+})
 
-   
+router.get('/productos/listar', (req, res) => {
+    res.json(productos.getProducts())
+});
 
-    // pongo a escuchar el servidor en el puerto indicado
+router.get('/productos/listar/:id', (req, res) => {
+    console.log(req.params.id);
+    res.json(productos.getProducts(req.params.id))
+});
+
+router.post('/productos/guardar', (req, res) => {
+    const product = req.body;
+    productos.addProduct(product);
+    res.redirect('/')
+});
+
+router.put('/productos/actualizar/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    const updateData = {
+        id: id,
+        ...req.body
+    };
+    res.json(productos.updateProduct(updateData));
+});
+
+router.delete('/productos/borrar/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    res.json(productos.deleteProduct(id));
+});
+
+
+// pongo a escuchar el servidor en el puerto indicado
 const puerto = 8080;
 
 const server = app.listen(puerto, () => {
