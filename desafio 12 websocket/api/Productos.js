@@ -63,4 +63,3 @@ class Productos {
 }
 
 export default Productos;
-//finally
