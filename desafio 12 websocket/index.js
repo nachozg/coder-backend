@@ -1,10 +1,10 @@
 import express from 'express';
-import {router, viewRouter, productos} from './routes/productos.js.js';
+import {router, viewRouter, productos} from './routes/productos.js';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
-import Messages from './api/Messages.js.js'
+import Messages from './api/Messages.js'
 
 const messages = new Messages();
 const __filename = fileURLToPath(import.meta.url);

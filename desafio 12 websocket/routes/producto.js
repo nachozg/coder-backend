@@ -1,5 +1,5 @@
 import express from 'express';
-import Productos from '../api/Productos.js.js';
+import Productos from '../api/Productos.js';
 
 export const router = express.Router();
 export const viewRouter = express.Router();
