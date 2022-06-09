@@ -13,8 +13,19 @@
 </head>
 
 <body>
-    <div class="container mt-5">
-        <div class="jumbotron">
+    <div id="logoutContainer" class="container mt-5 d-none">
+        <div class="jumbotron login">
+            <h4 id="logoutMsg" class="greeting"></h4>
+        </div>
+    </div>
+
+    <div id="mainContainer" class="container mt-5">
+        
+        <div class="jumbotron login">
+                <h4 id="greeting" class="greeting"></h4>
+                <button id="logout" class="btn btn-warning">Cerrar Sesion.</button>
+        </div>
+        <div class="jumbotron index">
             <div class="row">
                 <h1>Ingrese Producto</h1>
             </div>

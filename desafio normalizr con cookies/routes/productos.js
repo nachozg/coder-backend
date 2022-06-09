@@ -7,6 +7,10 @@ export const viewRouter = express.Router();
 
 export const productos = new Productos();
 
+viewRouter.get('/productos/login', async (req, res) => {
+    res.render("login.ejs")
+});
+
 viewRouter.get('/productos/vista', async (req, res) => {
     const listOfProducts = await productos.getProducts();
     res.render("index.ejs", {

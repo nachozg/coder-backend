@@ -6,6 +6,8 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import Messages from './api/Messages.js'
 import mongoose from 'mongoose';
+import session from 'express-session'
+import MongoStore from 'connect-mongo';
 
 mongoose.connect('mongodb://localhost:27017/ecommerce', { useNewUrlParser: true, useUnifiedTopology: true })
     .then(()=> console.log('conexion exitosa!'))
@@ -22,6 +24,17 @@ const io = new Server(server);
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+
+app.use(session({
+    store: MongoStore.create({
+        mongoUrl: 'mongodb+srv://root:root12345@cluster0.6hv2w.mongodb.net/sessions?retryWrites=true&w=majority',
+        mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
+        ttl: 600
+    }),
+    secret: 'secreto',
+    resave: false,
+    saveUninitialized: false
+}))
 
 app.use((err, req, res, next) => {
     console.error(err.message);
@@ -43,9 +56,39 @@ server.on('error', error => {
     console.log('Error:', error);
 });
 
-app.get('/', (req, res) => {
-    res.sendFile('index');
-});
+// --------------- DESAFIO 24 ---------------
+
+const auth = (req, res, next) => {
+    if (req.session.userName) {
+        return next();
+    } else {
+        return res.sendFile(`${__dirname}/public/login.html`);
+    }
+};
+
+app.get('/login',auth, (req, res) => {
+    req.session.cookie.maxAge = 60000;
+    res.sendFile(`${__dirname}/public/index.html`)
+})
+
+app.post('/login', (req, res) => {
+    console.log(req.body.userName)
+    req.session.userName = req.body.userName;
+    res.send({userName: req.body.userName});
+})
+
+app.get('/username', (req, res) => {
+    res.send({userName: req.session.userName});
+})
+
+app.get('/logout', (req, res) => {
+    req.session.destroy(err => {
+        if (!err) res.send('Logout ok!')
+        else res.send({ status: 'Logout ERROR', body: err })
+    })
+}) 
+
+// ---------------------------------------------
 
 io.on('connection', async (socket) => {
 
