@@ -14,7 +14,8 @@ import { users } from './models/users.js';
 import bcrypt from 'bcrypt';
 import passportFacebook from 'passport-facebook';
 import minimist from 'minimist';
-import {fork} from 'child_process'
+import {fork} from 'child_process';
+import os from 'os';
 
 // const FACEBOOK_CLIENT_ID = "194233676083385";
 // const FACEBOOK_CLIENT_SECRET = "18a6e2e015139eccdb101ec54346777a";
@@ -24,7 +25,7 @@ const args = minimist(process.argv.slice(2));
 const FACEBOOK_CLIENT_ID = args["FACEBOOK_CLIENT_ID"] || "535901190992405";
 const FACEBOOK_CLIENT_SECRET =
     args["FACEBOOK_CLIENT_SECRET"] || "8907de96464be5de2a6cb2d4c771858b";
-const PORT = args["FACEBOOK_CLIENT_ID"] || "8080";
+const PORT = (process.argv[2]) || "8080";
 
 // 
 
@@ -164,15 +165,17 @@ io.on('connection', async (socket) => {
 // });
 
 app.get("/info", (req, res) => {
-    res.send({
-        args: process.argv.slice(2).join(" - "),
-        OSName: process.platform,
-        nodeVersion: process.version,
-        usageOfMemory: process.memoryUsage(),
-        execPath: process.execPath,
-        PID: process.pid,
-        folder: process.cwd(),
-    });
+    // res.send({
+    //     args: process.argv.slice(2).join(" - "),
+    //     OSName: process.platform,
+    //     nodeVersion: process.version,
+    //     usageOfMemory: process.memoryUsage(),
+    //     execPath: process.execPath,
+    //     PID: process.pid,
+    //     folder: process.cwd(),
+    //     numberOfCPUs: os.cpus().length,
+    // });
+    res.send(`Servidor express <span style="color:blueviolet;">(Nginx)</span> en ${PORT} - <b>PID ${process.pid}</b> - ${new Date().toLocaleString()}`)
 });
 
 app.get("/randoms", (req, res) => {
