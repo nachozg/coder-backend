@@ -16,15 +16,40 @@ import passportFacebook from 'passport-facebook';
 import minimist from 'minimist';
 import {fork} from 'child_process';
 import os from 'os';
+import compression from 'compression';
+import log4js  from 'log4js';
+
+// -------------------------- LOGS4JS
+
+log4js.configure({
+    appenders: {
+        miLoggerConsole: { type: "console" },
+        warnLog: { type: 'file', filename: 'warn.log' },
+        errorLog: { type: 'file', filename: 'error.log' }
+    },
+    categories: {
+        default: { appenders: ["miLoggerConsole"], level: "info" },
+        warn: { appenders: ["miLoggerConsole","warnLog"], level: "warn" },
+        error: { appenders: ["miLoggerConsole","errorLog"], level: "error" },
+    }
+});
+
+const loggerError = log4js.getLogger('error');
+const loggerWarn = log4js.getLogger('warn');
+const loggerInfo = log4js.getLogger();
+
+
+// ------------------------------------
+
 
 // const FACEBOOK_CLIENT_ID = "194233676083385";
 // const FACEBOOK_CLIENT_SECRET = "18a6e2e015139eccdb101ec54346777a";
 
 // 
 const args = minimist(process.argv.slice(2));
-const FACEBOOK_CLIENT_ID = args["FACEBOOK_CLIENT_ID"] || "535901190992405";
+const FACEBOOK_CLIENT_ID = args["FACEBOOK_CLIENT_ID"] || "194233676083385";
 const FACEBOOK_CLIENT_SECRET =
-    args["FACEBOOK_CLIENT_SECRET"] || "8907de96464be5de2a6cb2d4c771858b";
+    args["FACEBOOK_CLIENT_SECRET"] || "18a6e2e015139eccdb101ec54346777a";
 const PORT = (process.argv[2]) || "8080";
 
 // 
@@ -47,6 +72,7 @@ const FacebookStrategy = passportFacebook.Strategy;
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.use(compression());
 
 app.use(session({
     secret: 'secreto',
@@ -102,17 +128,19 @@ app.use(passport.session());
 app.get('/login', (req,res) => {
     if (req.isAuthenticated()) {
         var user = req.user;
-        console.log('user logueado');
+        // console.log('user logueado');
+        loggerWarn.warn('user logueado')
         res.sendFile(__dirname + '/public/index.html');
       }
       else {
-        console.log('user NO logueado');
+        // console.log('user NO logueado');
+        loggerError.error('user NO logueado')
         res.sendFile(__dirname + '/public/login.html');
       }
 })
 
 app.get('/username', (req, res) => {
-    res.send({userName: req.user.displayName, email: req.user.emails[0].value, photo: req.user.photos[0].value});
+    res.send({userName: 'user'});
 })
 
 app.get('/logout', (req, res) => {
@@ -175,6 +203,8 @@ app.get("/info", (req, res) => {
     //     folder: process.cwd(),
     //     numberOfCPUs: os.cpus().length,
     // });
+    loggerInfo.info('info OK!')
+
     res.send(`Servidor express <span style="color:blueviolet;">(Nginx)</span> en ${PORT} - <b>PID ${process.pid}</b> - ${new Date().toLocaleString()}`)
 });
 
